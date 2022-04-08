@@ -39,6 +39,15 @@ class ResponseMacroServiceProvider extends ServiceProvider
             return Response::json($response);
         });
 
+        Response::macro('unauthorized', function () {
+            $response = [
+                'success' => false,
+                'message' => 'Unauthorized',
+            ];
+
+            return Response::json($response, StatusCode::UNAUTHORIZED);
+        });
+
         Response::macro('successWithData', function ($data, $status = StatusCode::OK, $headers = []) {
             $response = [
                 'success' => true,
