@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Services\Comment;
+
+use App\Http\Services\Service;
+use App\Models\PostComment;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class CommentCommands extends Service
+{
+    public function comment($post_id, $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $comment = new PostComment();
+            $comment->post_id = $post_id;
+            $comment->user_id = Auth::user()->id;
+            $comment->comment = $request->comment;
+            $comment->parent_id = $request->parent_id ?? null;
+
+            if (!$comment->save()) {
+                throw new Exception("Failed to comment", 400);
+            }
+
+            $comment = PostComment::with(['user:id,username'])->find($comment->id);
+
+            DB::commit();
+            return $comment;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+}

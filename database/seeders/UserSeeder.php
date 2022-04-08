@@ -23,6 +23,12 @@ class UserSeeder extends Seeder
                 'email' => 'posronda_official@yopmail.com',
                 'password' => Hash::make('Posronda_123'),
             ],
+            [
+                'name' => 'Kripik String',
+                'username' => 'kripik_string',
+                'email' => 'kripik_string@yopmail.com',
+                'password' => Hash::make('Kripik_123'),
+            ],
         ];
 
         foreach ($users as $user) {

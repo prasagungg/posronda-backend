@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Schema;
 
 class Service
 {
@@ -13,5 +14,21 @@ class Service
     static function init()
     {
         self::$curl = new Client();
+    }
+
+    protected function sorting($model, $orderby = null, $sort = 'asc', $table)
+    {
+        if ($orderby != null) {
+            $attributes = Schema::getColumnListing($table);
+            $sort = in_array($sort, ['asc', 'desc', 'ASC', 'DESC']) ? $sort : 'asc';
+
+            $model = $model->when(in_array($orderby, $attributes), function ($query) use ($orderby, $sort) {
+                $query->orderBy($orderby, $sort);
+            });
+
+            return $model;
+        } else {
+            return $model;
+        }
     }
 }
