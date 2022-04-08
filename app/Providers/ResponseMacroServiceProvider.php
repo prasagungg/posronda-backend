@@ -26,19 +26,20 @@ class ResponseMacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Response::macro('token', function ($token) {
+        Response::macro('token', function ($token, $message = 'Login Successfull') {
             $response = [
                 'success' => true,
-                'message' => 'Login Successfull',
+                'message' => $message,
                 'token' => $token,
                 'token_type' => 'bearer',
-                'expired_in' => (int) Auth::guard('api')->factory()->getTTL(),
+                'expires_in' => (int) Auth::factory()->getTTL(),
+                'user' => Auth::user(),
             ];
 
             return Response::json($response);
         });
 
-        Response::macro('success', function ($data, $status = StatusCode::OK, $headers = []) {
+        Response::macro('successWithData', function ($data, $status = StatusCode::OK, $headers = []) {
             $response = [
                 'success' => true,
                 'data' => $data,

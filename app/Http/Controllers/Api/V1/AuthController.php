@@ -37,13 +37,29 @@ class AuthController extends Controller
 
             $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-            if (!$token = Auth::guard('api')->attempt([$fieldType => $request->username, 'password' => $request->password])) {
-                return response()->errorValidation("username atau password tidak sesuai");
+            if (!$token = Auth::attempt([$fieldType => $request->username, 'password' => $request->password])) {
+                return response()->errorValidation("Incorrect username or password");
             }
 
             return response()->token($token);
         } catch (Exception $e) {
             return $this->respondErrorException($e, $request);
         }
+    }
+
+    public function refresh()
+    {
+        return response()->token(Auth::refresh(), 'Refresh token successfull');
+    }
+
+    public function userProfile()
+    {
+        return response()->successWithData(Auth::user());
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->successWithMessage("User successfully signed out");
     }
 }
