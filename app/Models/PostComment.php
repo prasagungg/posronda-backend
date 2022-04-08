@@ -26,4 +26,14 @@ class PostComment extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(PostComment::class, 'parent_id');
+    }
+
+    public function childs()
+    {
+        return $this->hasMany(PostComment::class, 'parent_id');
+    }
 }

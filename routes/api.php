@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,11 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('refresh', [AuthController::class, 'refresh']);
         Route::get('user-profile', [AuthController::class, 'userProfile']);
+    });
+
+    // Post
+    Route::prefix('post')->group(function () {
+        Route::get('', [PostController::class, 'all']);
+        Route::post('', [PostController::class, 'create']);
     });
 });

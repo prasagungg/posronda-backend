@@ -16,4 +16,9 @@ class PostImage extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function tags()
+    {
+        return $this->hasMany(PostImageTag::class, 'post_image_id');
+    }
 }
