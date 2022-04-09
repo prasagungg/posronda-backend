@@ -48,5 +48,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
     Route::prefix('comments')->group(function () {
         Route::get('{post_id}', [CommentController::class, 'getCommentByPost'])->where('post_id', '[0-9]+');
         Route::post('{post_id}/add', [CommentController::class, 'comment'])->where('post_id', '[0-9]+');
+        Route::delete('{post_id}/delete/{id}', [CommentController::class, 'destroy'])->where(['post_id' => '[0-9]+', 'id' => '[0-9]+']);
     });
 });

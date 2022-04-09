@@ -25,12 +25,35 @@ class CommentCommands extends Service
                 throw new Exception("Failed to comment", 400);
             }
 
-            $comment = PostComment::with(['user:id,username'])->find($comment->id);
+            $comment = PostComment::with(['user:id,name,username,profile_picture'])->find($comment->id);
 
             DB::commit();
             return $comment;
         } catch (Exception $e) {
             DB::rollBack();
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function destroy($post_id, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $comment = PostComment::where('post_id', $post_id)->where('user_id', Auth::user()->id)->where('id', $id)->first();
+
+            if (empty($comment)) {
+                throw new Exception("Comment not found", 404);
+            }
+
+            if (!$comment->delete()) {
+                throw new Exception("Failed to delete comment");
+            }
+
+            DB::commit();
+
+            return "comment deleted";
+        } catch (Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }

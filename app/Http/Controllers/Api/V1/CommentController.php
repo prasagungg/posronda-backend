@@ -7,6 +7,7 @@ use App\Http\Services\Comment\{CommentCommands, CommentQueries};
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CommentController extends Controller
 {
@@ -24,8 +25,8 @@ class CommentController extends Controller
     {
         try {
             $limit = is_numeric($request->limit) ? filter_var($request->limit, FILTER_VALIDATE_INT) : 10;
-            $orderby = !empty($request->orderby) ? $request->orderby : null;
-            $sort = !empty($request->sort) ? $request->sort : 'asc';
+            $orderby = !empty($request->orderby) ? $request->orderby : 'created_at';
+            $sort = !empty($request->sort) ? $request->sort : 'desc';
             $filter = $request->filter ?? [];
 
             $post_comments = $this->commentQueries->getCommentByPost($post_id, $limit, $orderby, $sort, $filter);
@@ -41,7 +42,7 @@ class CommentController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'comment' => 'required',
-                'parent_id' => 'nullable|exists:post_comment,id'
+                'parent_id' => ['nullable', Rule::exists('post_comment', 'id')->where('parent_id', null)]
             ]);
 
             if ($validator->fails()) {
@@ -61,6 +62,17 @@ class CommentController extends Controller
             return response()->successWithData($comment, 201);
         } catch (Exception $e) {
             return $this->respondErrorException($e, $request);
+        }
+    }
+
+    public function destroy($post_id, $id)
+    {
+        try {
+            $delete_comment = $this->commentCommands->destroy($post_id, $id);
+
+            return response()->successWithMessage($delete_comment);
+        } catch (Exception $e) {
+            return $this->respondErrorException($e, request());
         }
     }
 }
