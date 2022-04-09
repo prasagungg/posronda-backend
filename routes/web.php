@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::fallback(function () {
+    abort(404);
+});
+
 Route::get('/', function () {
     // return view('welcome');
     return response(['success' => true, 'message' => "Pos Ronda API Service"]);
