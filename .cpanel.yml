@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/posz6759/public_html/posronda-backend/
+    - /bin/cp -R images $DEPLOYPATH
