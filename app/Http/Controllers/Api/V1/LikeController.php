@@ -26,7 +26,7 @@ class LikeController extends Controller
 
             $post_likes = $this->likeQueries->getLikeByPost($post_id, $limit);
 
-            return response()->successWithData($post_likes);
+            return response()->withData($post_likes);
         } catch (Exception $e) {
             return $this->respondErrorException($e, request());
         }
@@ -37,7 +37,7 @@ class LikeController extends Controller
         try {
             $like = $this->likeCommands->like($post_id);
 
-            return response()->successWithMessage("The post has been liked", 201);
+            return response()->withMessage("The post has been liked", true, 201);
         } catch (Exception $e) {
             return $this->respondErrorException($e, request());
         }
@@ -48,7 +48,7 @@ class LikeController extends Controller
         try {
             $unlike = $this->likeCommands->unlike($post_id);
 
-            return response()->successWithMessage("The post has been unliked");
+            return response()->withMessage("The post has been unliked");
         } catch (Exception $e) {
             return $this->respondErrorException($e, request());
         }

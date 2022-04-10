@@ -44,7 +44,7 @@ class PostController extends Controller
 
             $post = $this->postCommands->create($request);
 
-            return response()->successWithData($post, 201);
+            return response()->withData($post, true, 201);
         } catch (Exception $e) {
             return $this->respondErrorException($e, $request);
         }
@@ -75,7 +75,7 @@ class PostController extends Controller
 
             $posts = $this->postQueries->all($limit);
 
-            return response()->successWithData($posts);
+            return response()->withData($posts);
         } catch (Exception $e) {
             return $this->respondErrorException($e, request());
         }
