@@ -32,7 +32,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('refresh', [AuthController::class, 'refresh']);
-        Route::get('user-profile', [AuthController::class, 'userProfile']);
+
+        // Registration
+        Route::post('register', [AuthController::class, 'register']);
+    });
+
+    // Profile
+    Route::prefix('profile')->group(function () {
+        Route::get('', [AuthController::class, 'userProfile']);
     });
 
     // Post

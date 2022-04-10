@@ -31,7 +31,7 @@ class CommentController extends Controller
 
             $post_comments = $this->commentQueries->getCommentByPost($post_id, $limit, $orderby, $sort, $filter);
 
-            return response()->successWithData($post_comments);
+            return response()->withData($post_comments);
         } catch (Exception $e) {
             return $this->respondErrorException($e, request());
         }
@@ -59,7 +59,7 @@ class CommentController extends Controller
 
             $comment = $this->commentCommands->comment($post_id, $request);
 
-            return response()->successWithData($comment, 201);
+            return response()->withData($comment, true, 201);
         } catch (Exception $e) {
             return $this->respondErrorException($e, $request);
         }
@@ -70,7 +70,7 @@ class CommentController extends Controller
         try {
             $delete_comment = $this->commentCommands->destroy($post_id, $id);
 
-            return response()->successWithMessage($delete_comment);
+            return response()->withMessage($delete_comment);
         } catch (Exception $e) {
             return $this->respondErrorException($e, request());
         }
