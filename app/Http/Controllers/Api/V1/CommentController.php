@@ -54,7 +54,7 @@ class CommentController extends Controller
                     }
                 }
 
-                return response()->errorValidation($errors);
+                return response()->error($errors);
             }
 
             $comment = $this->commentCommands->comment($post_id, $request);

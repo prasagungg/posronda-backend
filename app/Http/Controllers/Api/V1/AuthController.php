@@ -37,13 +37,13 @@ class AuthController extends Controller
                     }
                 }
 
-                return response()->errorValidation($errors);
+                return response()->error($errors);
             }
 
             $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
             if (!$token = Auth::attempt([$fieldType => $request->username, 'password' => $request->password])) {
-                return response()->errorValidation("Incorrect username or password");
+                return response()->error("Incorrect username or password");
             }
 
             return response()->token($token);
@@ -88,7 +88,7 @@ class AuthController extends Controller
                     }
                 }
 
-                return response()->errorValidation($errors);
+                return response()->error($errors);
             }
 
             $user = $this->userCommands->create($request);

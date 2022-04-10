@@ -75,7 +75,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
             return Response::json($response, $status, $headers);
         });
 
-        Response::macro('errorValidation', function ($message, $status = StatusCode::BAD_REQUEST, $headers = []) {
+        Response::macro('error', function ($message, $status = StatusCode::BAD_REQUEST, $headers = []) {
             $response = [
                 'success' => false,
                 'message' => $message,
