@@ -4,7 +4,9 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CommentController;
 use App\Http\Controllers\Api\V1\LikeController;
 use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\Api\V1\FirebaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +28,15 @@ Route::get('/', function () {
     return response(['success' => true, 'message' => "Pos Ronda API Service"]);
 });
 
+Route::get('clear-cache', function () {
+    Artisan::call('cache:clear');
+
+    return response()->json(['message' => 'cache cleared successfully!']);
+});
+
 Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
     // Auth
-    Route::group(['prefix' => 'auth'], function () {
+    Route::prefix('auth')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('refresh', [AuthController::class, 'refresh']);
@@ -60,5 +68,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
         Route::get('{post_id}', [CommentController::class, 'getCommentByPost'])->where('post_id', '[0-9]+');
         Route::post('{post_id}/add', [CommentController::class, 'comment'])->where('post_id', '[0-9]+');
         Route::delete('{post_id}/delete/{id}', [CommentController::class, 'destroy'])->where(['post_id' => '[0-9]+', 'id' => '[0-9]+']);
+    });
+
+    Route::prefix('cdn')->group(function () {
+        Route::post('upload', [FirebaseController::class, 'upload']);
+        Route::get('file/{type}/{path}', [FirebaseController::class, 'getImageUri']);
     });
 });
