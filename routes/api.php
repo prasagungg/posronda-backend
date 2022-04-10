@@ -25,7 +25,7 @@ Route::fallback(function () {
 });
 
 Route::get('/', function () {
-    return response(['success' => true, 'message' => "Pos Ronda API Service"]);
+    return response()->error("The page you are looking for is not available", 404);
 });
 
 Route::get('clear-cache', function () {
