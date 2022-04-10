@@ -18,6 +18,5 @@ Route::fallback(function () {
 });
 
 Route::get('/', function () {
-    // return view('welcome');
-    return response(['success' => true, 'message' => "Pos Ronda API Service"]);
+    return response()->error("The page you are looking for is not available", 404);
 });
