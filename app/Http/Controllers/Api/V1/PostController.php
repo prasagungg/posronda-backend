@@ -39,7 +39,7 @@ class PostController extends Controller
                     }
                 }
 
-                return response()->errorValidation($errors);
+                return response()->error($errors);
             }
 
             $post = $this->postCommands->create($request);
