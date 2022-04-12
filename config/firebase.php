@@ -47,7 +47,7 @@ return [
              *
              */
             'credentials' => [
-                'file' => __DIR__ . '/' . env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
+                'file' => preg_replace('/[\x00-\x1F\x7F]/', '', env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS'))),
 
                 /*
                  * If you want to prevent the auto discovery of credentials, set the
