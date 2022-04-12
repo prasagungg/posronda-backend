@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CommentController;
 use App\Http\Controllers\Api\V1\LikeController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\FirebaseController;
+use App\Http\Controllers\Api\V1\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -75,4 +76,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
         Route::post('upload', [FirebaseController::class, 'upload']);
         Route::get('file/{type}/{path}', [FirebaseController::class, 'getImageUri']);
     });
+
+    // Search
+    Route::get('search', [SearchController::class, 'search']);
 });
