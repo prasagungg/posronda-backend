@@ -47,9 +47,9 @@ class FirebaseHelper extends Helper
 
             return 'File berhasil diupload';
         } catch (Exception $e) {
-            // if (LaravelStorage::disk('local')->exists($storage_path . '/' . $file)) {
-            //     LaravelStorage::delete($storage_path . '/' . $file);
-            // }
+            if (LaravelStorage::disk('local')->exists($storage_path . '/' . $file)) {
+                LaravelStorage::delete($storage_path . '/' . $file);
+            }
 
             if (in_array($e->getCode(), self::$error_codes)) {
                 throw new Exception($e->getMessage(), $e->getCode());
