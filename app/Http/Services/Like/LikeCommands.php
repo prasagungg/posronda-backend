@@ -16,8 +16,13 @@ class LikeCommands extends Service
             DB::beginTransaction();
 
             $like = new PostLike();
+
+            if (!empty($like->where('post_id', $post_id)->where('user_id', self::$user->id)->first())) {
+                throw new Exception("You already liked this post.", 200);
+            }
+
             $like->post_id = $post_id;
-            $like->user_id = Auth::user()->id;
+            $like->user_id = self::$user->id;
             if (!$like->save()) {
                 throw new Exception("Failed to like the post");
             }
@@ -37,7 +42,7 @@ class LikeCommands extends Service
         try {
             DB::beginTransaction();
 
-            $like = PostLike::where('post_id', $post_id)->where('user_id', Auth::user()->id)->first();
+            $like = PostLike::where('post_id', $post_id)->where('user_id', self::$user->id)->first();
 
             if (empty($like)) {
                 throw new Exception("Data not found", 404);

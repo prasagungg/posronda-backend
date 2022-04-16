@@ -37,6 +37,11 @@ class PostComment extends Model
         return $this->hasMany(PostComment::class, 'parent_id');
     }
 
+    public function likes()
+    {
+        return $this->hasMany(CommentLike::class, 'comment_id');
+    }
+
     public function getAllAttributes()
     {
         $columns = $this->getFillable();

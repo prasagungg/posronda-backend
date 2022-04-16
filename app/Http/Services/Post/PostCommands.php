@@ -18,7 +18,7 @@ class PostCommands extends Service
             DB::beginTransaction();
 
             $post = new Post();
-            $post->user_id = Auth::user()->id;
+            $post->user_id = self::$user->id;
             $post->caption = $data->caption;
 
             if (!$post->save()) {

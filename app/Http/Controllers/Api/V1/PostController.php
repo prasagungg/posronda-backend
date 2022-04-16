@@ -84,7 +84,7 @@ class PostController extends Controller
     public function getByUsername($username, Request $request)
     {
         try {
-            $limit = is_numeric($request->limit) ? filter_var($request->limit, FILTER_VALIDATE_INT) : 10;
+            $limit = is_numeric($request->limit) ? filter_var($request->limit, FILTER_VALIDATE_INT) : 9;
 
             $posts = $this->postQueries->getPostByUsername($username, $limit);
 

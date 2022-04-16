@@ -27,7 +27,7 @@ class PostQueries extends Service
         return $posts;
     }
 
-    public function getPostByUsername($username, $limit = 10)
+    public function getPostByUsername($username, $limit = 9)
     {
         $posts = Post::whereHas('user', function ($query) use ($username) {
             $query->username($username);
