@@ -17,7 +17,7 @@ class SearchController extends Controller
 
             $users = User::query()
                 ->select(['id', 'name', 'username', 'profile_picture', 'is_verified'])
-                ->whereLike(['username', 'name'], $search)
+                ->searchAccount(['username', 'name'], $search)
                 ->orderBy('username', 'ASC')
                 ->paginate($limit);
 

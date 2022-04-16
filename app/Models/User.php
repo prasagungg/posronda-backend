@@ -80,4 +80,23 @@ class User extends Authenticatable implements JWTSubject
             set: fn ($value) => Hash::make($value),
         );
     }
+
+    public function scopeUsername($query, $username)
+    {
+        return $query->where('username', $username);
+    }
+
+    public function scopeSearchAccount($query, $fields = [], $searchTerm)
+    {
+        if (count($fields) == 0) {
+            return $query;
+        }
+
+        return $query->whereLike($fields, $searchTerm);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id');
+    }
 }

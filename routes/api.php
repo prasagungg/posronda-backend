@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CommentController;
 use App\Http\Controllers\Api\V1\LikeController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\FirebaseController;
+use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -42,6 +43,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::get('me', [AuthController::class, 'userProfile']);
 
         // Registration
         Route::post('register', [AuthController::class, 'register']);
@@ -49,13 +51,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
 
     // Profile
     Route::prefix('profile')->group(function () {
-        Route::get('', [AuthController::class, 'userProfile']);
+        Route::get('{username}', [ProfileController::class, 'getProfileByUsername']);
     });
 
     // Post
     Route::prefix('post')->group(function () {
         Route::get('', [PostController::class, 'all']);
         Route::post('', [PostController::class, 'create']);
+        Route::get('{username}', [PostController::class, 'getByUsername']);
     });
 
     // Likes

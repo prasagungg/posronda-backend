@@ -26,7 +26,7 @@ class PostController extends Controller
             $validator = Validator::make($request->all(), [
                 'caption' => 'nullable|string',
                 'images' => 'required|array|min:1',
-                'images.*.url' => 'required',
+                'images.*.path' => 'required',
                 'images.*.tags' => 'array|exists:users,id',
             ]);
 
@@ -77,7 +77,20 @@ class PostController extends Controller
 
             return response()->withData($posts);
         } catch (Exception $e) {
-            return $this->respondErrorException($e, request());
+            return $this->respondErrorException($e, $request);
+        }
+    }
+
+    public function getByUsername($username, Request $request)
+    {
+        try {
+            $limit = is_numeric($request->limit) ? filter_var($request->limit, FILTER_VALIDATE_INT) : 10;
+
+            $posts = $this->postQueries->getPostByUsername($username, $limit);
+
+            return response()->withData($posts);
+        } catch (Exception $e) {
+            return $this->respondErrorException($e, $request);
         }
     }
 }

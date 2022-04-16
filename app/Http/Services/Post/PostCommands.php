@@ -28,7 +28,7 @@ class PostCommands extends Service
             foreach ($data->images as $i => $image) {
                 $post_image = new PostImage();
                 $post_image->post_id = $post->id;
-                $post_image->url_image = $image['url'];
+                $post_image->url_image = self::$base_url . sprintf("/%s/%s", "v1/cdn/file/load", $image['path']);
                 if (!$post_image->save()) {
                     DB::rollBack();
                     throw new Exception("Failed to save data");
@@ -45,7 +45,7 @@ class PostCommands extends Service
                 }
             }
 
-            $post = Post::with(['user:id,username', 'images', 'images.tags:id,post_image_id,user_id', 'images.tags.user:id,username'])->find($post->id);
+            $post = Post::with(['user:id,username', 'images:id,post_id,url_image', 'images.tags:id,post_image_id,user_id', 'images.tags.user:id,username'])->find($post->id);
 
             DB::commit();
 
