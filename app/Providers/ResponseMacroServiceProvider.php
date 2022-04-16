@@ -33,7 +33,6 @@ class ResponseMacroServiceProvider extends ServiceProvider
                 'token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => (int) Auth::factory()->getTTL(),
-                'user' => Auth::user(),
             ];
 
             return Response::json($response);
