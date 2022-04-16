@@ -2,10 +2,20 @@
 
 namespace App\Http;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Routing\Router;
 
 class Kernel extends HttpKernel
 {
+    public function __construct(Application $app, Router $router)
+    {
+        if (in_array(env('APP_ENV'), ['production', 'staging'])) {
+            $this->prependMiddleware('\App\Http\Middleware\UserAgent');
+        }
+
+        parent::__construct($app, $router);
+    }
     /**
      * The application's global HTTP middleware stack.
      *
