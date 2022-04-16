@@ -16,11 +16,17 @@ class CommentQueries extends Service
                     $query->orderBy('created_at', 'ASC');
                 },
                 'replies.user:id,name,username,is_verified,profile_picture'
-            ]);
+            ])
+            ->withCount(['likes', 'likes as liked_by_me' => fn ($like) => $like->whereHas('user', fn ($user) => $user->where('id', self::$user->id))]);
 
         $sorted = $this->sorting($comments, $orderby, $sort, (new PostComment())->getTable());
         $filtered = $this->filter($sorted, $filter);
         $comments = $filtered->paginate($limit);
+
+        $comments->getCollection()->transform(function ($comment) {
+            $comment->liked_by_me = $comment->liked_by_me > 0;
+            return $comment;
+        });
 
         return $comments;
     }
