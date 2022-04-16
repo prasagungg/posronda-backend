@@ -65,6 +65,28 @@ class CommentController extends Controller
         }
     }
 
+    public function like($comment_id)
+    {
+        try {
+            $this->commentCommands->like($comment_id);
+
+            return response()->withMessage("The comment has been liked", true, 201);
+        } catch (Exception $e) {
+            return $this->respondErrorException($e, request());
+        }
+    }
+
+    public function unlike($comment_id)
+    {
+        try {
+            $this->commentCommands->unlike($comment_id);
+
+            return response()->withMessage("The comment has been unliked");
+        } catch (Exception $e) {
+            return $this->respondErrorException($e, request());
+        }
+    }
+
     public function destroy($post_id, $id)
     {
         try {
