@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://posronda.xyz'],
 
     'allowed_origins_patterns' => [],
 
