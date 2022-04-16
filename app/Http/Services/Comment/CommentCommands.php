@@ -41,6 +41,11 @@ class CommentCommands extends Service
             DB::beginTransaction();
 
             $like = new CommentLike();
+
+            if (!empty($like->where('comment_id', $comment_id)->where('user_id', self::$user->id)->first())) {
+                throw new Exception("You already liked this comment.", 200);
+            }
+
             $like->comment_id = $comment_id;
             $like->user_id = self::$user->id;
             if (!$like->save()) {

@@ -16,6 +16,11 @@ class LikeCommands extends Service
             DB::beginTransaction();
 
             $like = new PostLike();
+
+            if (!empty($like->where('post_id', $post_id)->where('user_id', self::$user->id)->first())) {
+                throw new Exception("You already liked this post.", 200);
+            }
+
             $like->post_id = $post_id;
             $like->user_id = self::$user->id;
             if (!$like->save()) {
