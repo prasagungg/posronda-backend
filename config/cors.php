@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://posronda.xyz'],
+    'allowed_origins' => ['https://posronda.xyz', 'http://localhost:3000'],
 
     'allowed_origins_patterns' => [],
 
