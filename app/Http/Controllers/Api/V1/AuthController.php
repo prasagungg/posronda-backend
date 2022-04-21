@@ -97,7 +97,10 @@ class AuthController extends Controller
                 return response()->withMessage("Register failed.", false);
             }
 
-            return response()->withData($user);
+            $token = Auth::attempt(['username' => $user->username, 'password' => $request->password]);
+
+            return response()->token($token, 'Register Successfull');
+            // return response()->withData($user);
         } catch (Exception $e) {
             return $this->respondErrorException($e, $request);
         }
