@@ -10,7 +10,7 @@ class Kernel extends HttpKernel
 {
     public function __construct(Application $app, Router $router)
     {
-        if (in_array(env('APP_ENV'), ['production', 'staging'])) {
+        if (in_array(env('APP_ENV', 'production'), ['production', 'staging'])) {
             $this->prependMiddleware('\App\Http\Middleware\UserAgent');
         }
 
