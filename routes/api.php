@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CommentController;
 use App\Http\Controllers\Api\V1\LikeController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\FirebaseController;
+use App\Http\Controllers\Api\V1\FollowersController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\SearchController;
 use Illuminate\Http\Request;
@@ -86,4 +87,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
 
     // Search
     Route::get('search', [SearchController::class, 'search']);
+
+    // Follower
+    Route::prefix('friendships')->group(function () {
+        Route::post('{user_id}/follow', [FollowersController::class, 'follow'])->where('user_id', '[0-9]+');
+        Route::post('{user_id}/unfollow', [FollowersController::class, 'unfollow'])->where('user_id', '[0-9]+');
+        Route::get('{user_id}/followers', [FollowersController::class, 'getFollowers'])->where('user_id', '[0-9]+');
+        Route::get('{user_id}/followings', [FollowersController::class, 'getFollowings'])->where('user_id', '[0-9]+');
+    });
 });
