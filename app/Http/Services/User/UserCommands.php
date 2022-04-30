@@ -20,7 +20,7 @@ class UserCommands extends Service
             $user->username = $data['username'];
             $user->email = $data['email'];
             $user->password = $data['password'];
-            $user->profile_picture = self::DEFAULT_PROFILE_PICTURE;
+            $user->profile_picture = self::$DEFAULT_PROFILE_PICTURE;
 
             DB::commit();
 
@@ -55,7 +55,7 @@ class UserCommands extends Service
             $user->password = $data['password'];
             $user->phone = isset($data['phone']) ? $data['phone'] : null;
             $user->gender = isset($data['gender']) ? $data['gender'] : null;
-            $user->profile_picture = isset($data['profile_picture']) ? $data['profile_picture'] : self::DEFAULT_PROFILE_PICTURE;
+            $user->profile_picture = isset($data['profile_picture']) ? $data['profile_picture'] : self::$DEFAULT_PROFILE_PICTURE;
             $user->bio = isset($data['bio']) ? $data['bio'] : null;
             $user->website = isset($data['website']) ? $data['website'] : null;
 
