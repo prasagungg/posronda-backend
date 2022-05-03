@@ -58,6 +58,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
     // Post
     Route::prefix('post')->group(function () {
         Route::get('', [PostController::class, 'all']);
+        Route::get('feeds', [PostController::class, 'feeds']);
         Route::post('', [PostController::class, 'create']);
         Route::get('{username}', [PostController::class, 'getByUsername']);
     });

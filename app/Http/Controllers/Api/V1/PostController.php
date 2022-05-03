@@ -93,4 +93,17 @@ class PostController extends Controller
             return $this->respondErrorException($e, $request);
         }
     }
+
+    public function feeds(Request $request)
+    {
+        try {
+            $limit = is_numeric($request->limit) ? filter_var($request->limit, FILTER_VALIDATE_INT) : 7;
+
+            $posts = $this->postQueries->getFeeds($limit);
+
+            return response()->withData($posts);
+        } catch (Exception $e) {
+            return $this->respondErrorException($e, $request);
+        }
+    }
 }
