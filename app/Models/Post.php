@@ -13,6 +13,10 @@ class Post extends Model
     protected $table = 'post';
     protected $guarded = [];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     protected function serializeDate($date)
     {
         return $date->format('Y-m-d H:i:s');
